@@ -1,5 +1,14 @@
 
 ```bash
-docker build -t lsiwh37249/mariadb:20241111 .
-docker run -d -p 3306:3306 --name mariadb lsiwh37249/mariadb:20241111
+$ docker compose -f airflow-docker-compose.yml up -d
+$ docker compose -f spark-docker-compose.yml up -d
+$ docker compose -f kafka-docker-compose.yml up -d
+$ docker compose -f spring-docker-compose.yml up -d
+```
+
+```bash
+$ docker compose -f airflow-docker-compose.yml down
+$ docker compose -f spark-docker-compose.yml down
+$ docker compose -f kafka-docker-compose.yml down
+$ docker compose -f spring-docker-compose.yml down
 ```
