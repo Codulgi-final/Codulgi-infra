@@ -1,116 +1,91 @@
-version: '3'
+version: '3.8'
+
 services:
   zookeeper:
-    build: ./zookeeper
+    image: 'zookeeper:3.7'
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
-    networks:
-      - hadoop-net
 
   kafka:
-    build: ./kafka
+    image: 'apache/kafka:3.8.1'
     environment:
+      KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
     ports:
       - "9092:9092"
     networks:
-      - hadoop-net
+      - kafka-network
 
-  # Spark Master
   spark-master:
-    build: ./spark
-    environment:
-      SPARK_MODE: master
-      SPARK_MASTER_URL: spark://spark-master:7077
+    image: 'apache/spark:3.5.3'
+    command: >
+      bash -c "start-master.sh && tail -f /dev/null"
     ports:
-      - "7077:7077"  # Spark 클러스터 연결
-      - "8080:8080"  # Spark UI
+      - "7077:7077"
+      - "8080:8080"
     networks:
-      - hadoop-net
+      - spark-network
 
-  # Spark Worker
   spark-worker:
-    build: ./spark
-    environment:
-      SPARK_MODE: worker
-      SPARK_MASTER_URL: spark://spark-master:7077  # Spark 마스터와 연결
+    image: 'apache/spark:3.5.3'
+    command: >
+      bash -c "start-worker.sh spark://spark-master:7077 && tail -f /dev/null"
+    depends_on:
+      - spark-master
     networks:
-      - hadoop-net
+      - spark-network
+
+  mariadb:
+    image: 'mariadb:10.5'
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: example_db
+      MYSQL_USER: example_user
+      MYSQL_PASSWORD: example_password
+    ports:
+      - "53306:3306"
+    networks:
+      - backend-network
 
   airflow:
-    build: ./airflow
+    image: 'apache/airflow:2.10.3-python3.11'
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: 'mysql+pymysql://example_user:example_password@mariadb:3306/example_db'
+    depends_on:
+      - mariadb
     ports:
       - "8081:8081"
     networks:
-      - hadoop-net
+      - backend-network
 
-  mariadb:
-    build: ./mariadb
-    ports:
-      - "3306:3306"
+  spring-app:
+    build:
+      context: ./spring-app
+      dockerfile: Dockerfile
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-    networks:
-      - hadoop-net
-
-  spring:
-    build: ./spring
+      SPRING_DATASOURCE_URL: jdbc:mysql://mariadb:53306/example_db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: 1234
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - kafka
+      - mariadb
     ports:
-      - "8082:8082"
+      - "8082:8080"
     networks:
-      - hadoop-net
-
-        #  prometheus:
-        #    build: ./prometheus
-        #    ports:
-        #      - "9090:9090"
-        #    networks:
-        #      - hadoop-net
-
-        #  grafana:
-        #    build: ./grafana
-        #    ports:
-        #      - "3000:3000"
-        #    networks:
-        #      - hadoop-net
-
-#  db_exporter:
-#    build: ./db_exporter
-#    environment:
-#      DATA_SOURCE_NAME: "mariadb:3306"
-#    networks:
-#      - hadoop-net
-
-        #  namenode:
-        #    build: ./hdfs/namenode
-        #    environment:
-        #      CLUSTER_NAME: hadoop-cluster
-        #    ports:
-        #      - "9870:9870"
-        #    networks:
-        #      - hadoop-net
-
-        #  datanode:
-        #    build: ./hdfs/datanode
-        #    environment:
-        #      SERVICE_PRECONDITION: "namenode:9870"
-        #    ports:
-        #      - "9864:9864"
-        #    networks:
-        #      - hadoop-net
-
-        #  yarn:
-        #    build: ./yarn
-        #    environment:
-        #      YARN_RESOURCEMANAGER_HOSTNAME: "yarn"
-        #    ports:
-        #      - "8088:8088"
-        #    networks:
-        #      - hadoop-net
+      - backend-network
 
 networks:
-  hadoop-net:
-    driver: bridge
+  backend-network:
+  kafka-network:
+  spark-network:
+

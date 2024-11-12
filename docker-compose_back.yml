@@ -1,0 +1,116 @@
+version: '3'
+services:
+  zookeeper:
+    build: ./zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - hadoop-net
+
+  kafka:
+    build: ./kafka
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    networks:
+      - hadoop-net
+
+  # Spark Master
+  spark-master:
+    build: ./spark
+    environment:
+      SPARK_MODE: master
+      SPARK_MASTER_URL: spark://spark-master:7077
+    ports:
+      - "7077:7077"  # Spark 클러스터 연결
+      - "8080:8080"  # Spark UI
+    networks:
+      - hadoop-net
+
+  # Spark Worker
+  spark-worker:
+    build: ./spark
+    environment:
+      SPARK_MODE: worker
+      SPARK_MASTER_URL: spark://spark-master:7077  # Spark 마스터와 연결
+    networks:
+      - hadoop-net
+
+  airflow:
+    build: ./airflow
+    ports:
+      - "8081:8081"
+    networks:
+      - hadoop-net
+
+  mariadb:
+    build: ./mariadb
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+    networks:
+      - hadoop-net
+
+  spring:
+    build: ./spring
+    ports:
+      - "8082:8082"
+    networks:
+      - hadoop-net
+
+        #  prometheus:
+        #    build: ./prometheus
+        #    ports:
+        #      - "9090:9090"
+        #    networks:
+        #      - hadoop-net
+
+        #  grafana:
+        #    build: ./grafana
+        #    ports:
+        #      - "3000:3000"
+        #    networks:
+        #      - hadoop-net
+
+#  db_exporter:
+#    build: ./db_exporter
+#    environment:
+#      DATA_SOURCE_NAME: "mariadb:3306"
+#    networks:
+#      - hadoop-net
+
+        #  namenode:
+        #    build: ./hdfs/namenode
+        #    environment:
+        #      CLUSTER_NAME: hadoop-cluster
+        #    ports:
+        #      - "9870:9870"
+        #    networks:
+        #      - hadoop-net
+
+        #  datanode:
+        #    build: ./hdfs/datanode
+        #    environment:
+        #      SERVICE_PRECONDITION: "namenode:9870"
+        #    ports:
+        #      - "9864:9864"
+        #    networks:
+        #      - hadoop-net
+
+        #  yarn:
+        #    build: ./yarn
+        #    environment:
+        #      YARN_RESOURCEMANAGER_HOSTNAME: "yarn"
+        #    ports:
+        #      - "8088:8088"
+        #    networks:
+        #      - hadoop-net
+
+networks:
+  hadoop-net:
+    driver: bridge
