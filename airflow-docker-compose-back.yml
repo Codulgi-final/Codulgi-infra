@@ -1,0 +1,28 @@
+services:
+
+  airflow:
+    image: 'apache/airflow:2.10.3-python3.11'
+    environment:
+      - AIRFLOW__DATABASE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:1234@postgres:5432/airflow_db  # [database] 섹션으로 이동
+      - AIRFLOW__WEBSERVER__WEB_SERVER_PORT=8081
+    depends_on:
+      - postgres
+    ports:
+      - "8081:8081"
+    networks:
+      - all_network
+
+  postgres:
+    image: 'postgres:13'
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=airflow_db
+    ports:
+      - "5432:5432"
+    networks:
+      - all_network
+
+networks:
+  all_network:
