@@ -2,7 +2,7 @@
 FROM mariadb:10.7
 
 # 환경 변수 설정 (root 패스워드 설정)
-ENV MYSQL_ROOT_PASSWORD=rootpassword
+ENV MYSQL_ROOT_PASSWORD=1234
 ENV MYSQL_DATABASE=mydb
 ENV MYSQL_USER=myuser
 ENV MYSQL_PASSWORD=mypassword

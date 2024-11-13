@@ -1,26 +1,27 @@
 services:
   mariadb:
+    container_name: mariadb
     image: mariadb:10.5
     restart: always
     environment:
       MARIADB_ROOT_PASSWORD: 1234
+      MARIADB_USER: myuser
+      MARIADB_PASSWORD: mypassword
+      MARIADB_DATABASE: mydb
     ports:
       - "53306:3306"
     networks:
       - all_network
 
   spring-app:
+    container_name: spirng-app
     build:
       context: ./spring-app
       dockerfile: Dockerfile
-    environment:
-      #SPRING_DATASOURCE_URL: jdbc:mysql://mariadb:3306/example_db
-      SPRING_DATASOURCE_USERNAME: user
-      SPRING_DATASOURCE_PASSWORD: 1234
     depends_on:
       - mariadb
     ports:
-      - "8082:8082"
+      - "8082:8080"
     networks:
       - all_network
 
