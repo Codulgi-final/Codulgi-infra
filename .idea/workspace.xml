@@ -13,9 +13,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2omYgbkGSRZve4Hpmz29N4ThRuh" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
@@ -23,7 +23,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "infra/20241112",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "/Users/jeong/Code/codulgi/codulgi-infra",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -51,6 +51,7 @@
       <option name="presentableId" value="Default" />
       <updated>1731476330092</updated>
       <workItem from="1731476331142" duration="1970000" />
+      <workItem from="1731495717243" duration="722000" />
     </task>
     <servers />
   </component>
