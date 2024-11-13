@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
         `;
         toastContainer.appendChild(toast);
-        const bsToast = new bootstrap.Toast(toast, { delay: 3000 });
+        const bsToast = new bootstrap.Toast(toast, {delay: 3000});
         bsToast.show();
         toast.addEventListener('hidden.bs.toast', () => {
             toastContainer.removeChild(toast);
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.executeFile = async function (file, action) {
         try {
-            const response = await fetch(`/services/${file}/${action}`, { method: "POST" });
+            const response = await fetch(`/services/${file}/${action}`, {method: "POST"});
             const result = await response.json();
             showToast(result.message, true);
         } catch (error) {
@@ -53,25 +53,24 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             const response = await fetch("/execute-order", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ files: fileNames })
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({files: fileNames})
             });
             const result = await response.json();
             showToast(result.message, true);
         } catch (error) {
             console.error("에러 로그:", error);
-            showToast("전체 적인 실행에 실패 하였습니다.", false);
+            showToast("순차 컨테이너 실행에 실패 하였습니다.", false);
         }
     };
 
     window.stopAndRemoveAllContainers = async function () {
         try {
-            const response = await fetch("/stop-all-containers", { method: "POST" });
+            const response = await fetch("/stop-all-containers", {method: "POST"});
             const result = await response.json();
             showToast(result.message, true);
         } catch (error) {
-            console.error("Error stopping and removing all containers:", error);
-            showToast("An error occurred while stopping all containers.", false);
+            showToast("모든 컨테이너 종료하는 것에 실패하였습니다.", false);
         }
     };
 
@@ -107,11 +106,11 @@ document.addEventListener("DOMContentLoaded", function () {
             if (isFirstLoad) {
                 spinner.style.display = "none";
                 monitoringTable.style.display = "table";
-                isFirstLoad = false;  // 첫 로드 이후로 스피너를 사용하지 않음
+                isFirstLoad = false; // 처음에만 스피너 쓰고 이후에는 스피너 안씀
             }
         } catch (error) {
             console.error("Failed to update monitoring data:", error);
-            showToast("Failed to update monitoring data.", false);
+            showToast("모니터링 업데이트 실패", false);
         }
     }
 
