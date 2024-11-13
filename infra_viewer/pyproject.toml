@@ -5,7 +5,12 @@ description = "Default template for PDM package"
 authors = [
     {name = "Jeonghoon2", email = "ukidd12@naver.com"},
 ]
-dependencies = []
+dependencies = [
+    "streamlit>=1.40.1",
+    "docker>=7.1.0",
+    "streamlit-option-menu>=0.4.0",
+    "streamlit-autorefresh>=1.0.1",
+]
 requires-python = "==3.11.*"
 readme = "README.md"
 license = {text = "MIT"}

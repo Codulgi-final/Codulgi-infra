@@ -5,14 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4a19b98-6014-478c-aeb5-ba4edf995a77" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infra_viewer/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/infra_viewer/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infra_viewer/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/infra_viewer/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infra_viewer/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/infra_viewer/pyproject.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infra_viewer/src/infra_viewer/volume/grafana/grafana.db" beforeDir="false" afterPath="$PROJECT_DIR$/infra_viewer/src/infra_viewer/volume/grafana/grafana.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -31,16 +41,28 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "0.1/infra__view",
-    "last_opened_file_path": "/Users/jeong/Code/codulgi/codulgi-infra",
+    "last_opened_file_path": "/Users/jeong/Code/codulgi/codulgi-infra/infra_viewer/src/infra_viewer/docker-compose-files/dockerfiles/spring-app",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.editor",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/infra_viewer/src/infra_viewer/docker-compose-files/dockerfiles/spring-app" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/infra_viewer/src/infra_viewer" />
+      <recent name="$PROJECT_DIR$/infra_viewer/src" />
+      <recent name="$PROJECT_DIR$/infra_viewer/src/infra_viewer/templates" />
+      <recent name="$PROJECT_DIR$/infra_viewer" />
+      <recent name="$PROJECT_DIR$/docker-compose-files/dockerfiles" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -58,7 +80,7 @@
       <option name="presentableId" value="Default" />
       <updated>1731476330092</updated>
       <workItem from="1731476331142" duration="1970000" />
-      <workItem from="1731495717243" duration="1161000" />
+      <workItem from="1731495717243" duration="19993000" />
     </task>
     <servers />
   </component>
