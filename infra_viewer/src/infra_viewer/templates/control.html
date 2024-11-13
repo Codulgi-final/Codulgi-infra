@@ -1,0 +1,121 @@
+<!-- templates/control.html -->
+{% extends "index.html" %}
+
+{% block title %}Container Control{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Docker Container Control</h1>
+
+<!-- Spinner 및 컨트롤 영역 -->
+<div id="spinner-container" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<!-- 컨트롤 UI는 데이터 로드 후 표시 -->
+<div id="container-controls" style="display: none;">
+    <div class="my-4">
+        <div class="row" id="control-cards-container">
+            <!-- JavaScript로 카드가 여기에 동적으로 추가됩니다 -->
+        </div>
+    </div>
+</div>
+
+<!-- Dot 스타일 정의 -->
+<style>
+    .dot {
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 8px;
+    }
+
+    .dot.green {
+        background-color: green;
+    }
+
+    .dot.red {
+        background-color: red;
+    }
+</style>
+
+<script>
+    async function updateStatus() {
+        const spinnerContainer = document.getElementById("spinner-container");
+        const controlsContainer = document.getElementById("container-controls");
+        const cardsContainer = document.getElementById("control-cards-container");
+
+        try {
+            // 스피너를 표시하고 컨트롤 영역 숨기기
+            spinnerContainer.style.display = "block";
+            controlsContainer.style.display = "none";
+
+            // API 호출로 컨테이너 상태 가져오기
+            const response = await fetch("/api/containers/status");
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const statuses = await response.json();
+            console.log("Fetched statuses:", statuses);
+
+            // 기존 카드 내용을 비웁니다
+            cardsContainer.innerHTML = '';
+
+            // 상태에 따라 각 컨테이너에 대한 카드 생성
+            for (const [service, status] of Object.entries(statuses)) {
+                const isRunning = status.toLowerCase().includes("up");
+
+                // 카드 요소 생성
+                const card = document.createElement("div");
+                card.className = "col-md-4 mb-3";
+                card.innerHTML = `
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">${service.charAt(0).toUpperCase() + service.slice(1)}</h5>
+                            <span id="${service}-status-dot" class="dot ${isRunning ? 'green' : 'red'}"></span>
+                            <div class="mt-2">
+                                <button onclick="controlService('${service}', 'up')"
+                                        id="${service}-start-btn" class="btn btn-success"
+                                        style="display: ${isRunning ? 'none' : 'inline-block'};">Start</button>
+                                <button onclick="controlService('${service}', 'down')"
+                                        id="${service}-stop-btn" class="btn btn-danger"
+                                        style="display: ${isRunning ? 'inline-block' : 'none'};">Stop</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                cardsContainer.appendChild(card);
+            }
+
+            // 데이터 로드가 완료되면 스피너를 숨기고 컨트롤 표시
+            spinnerContainer.style.display = "none";
+            controlsContainer.style.display = "block";
+        } catch (error) {
+            console.error("Failed to update container statuses:", error);
+            alert("An error occurred while loading container statuses.");
+        }
+    }
+
+    async function controlService(service, action) {
+        try {
+            const response = await fetch(`/services/${service}/${action}`, { method: 'POST' });
+            if (response.ok) {
+                alert(`${service} ${action}ed successfully.`);
+                updateStatus(); // 상태 업데이트 호출
+            } else {
+                alert(`Failed to ${action} ${service}.`);
+            }
+        } catch (error) {
+            console.error(`Error ${action}ing ${service}:`, error);
+            alert(`Error ${action}ing ${service}.`);
+        }
+    }
+
+    // 페이지 로드 시 상태 초기화
+    window.onload = updateStatus;
+</script>
+
+{% endblock %}
