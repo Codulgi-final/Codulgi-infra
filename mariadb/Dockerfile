@@ -3,9 +3,9 @@ FROM mariadb:10.7
 
 # 환경 변수 설정 (root 패스워드 설정)
 ENV MYSQL_ROOT_PASSWORD=1234
-ENV MYSQL_DATABASE=mydb
-ENV MYSQL_USER=myuser
-ENV MYSQL_PASSWORD=mypassword
+ENV MYSQL_DATABASE=codulgi_db
+ENV MYSQL_USER=codulgi
+ENV MYSQL_PASSWORD=codul1234
 
 # 기본 포트 3306 노출
 EXPOSE 3306

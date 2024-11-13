@@ -18,7 +18,9 @@ services:
       - ./grafana/volume:/var/lib/grafana
     networks:
       - all_network
-    
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    user: "${UID}:${GID}"  # 현재 사용자 UID/GID로 설정
       
 
 networks:

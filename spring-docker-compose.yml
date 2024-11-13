@@ -4,17 +4,19 @@ services:
     image: mariadb:10.5
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: 1234
-      MARIADB_USER: myuser
-      MARIADB_PASSWORD: mypassword
-      MARIADB_DATABASE: mydb
+      MARIADB_ROOT_PASSWORD: codul1234
+      MARIADB_USER: codulgi
+      MARIADB_PASSWORD: codul1234
+      MARIADB_DATABASE: codulgi_db
     ports:
-      - "53306:3306"
+      - "3306:3306"
+    volumes:
+      - ./mariadb/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - all_network
 
   spring-app:
-    container_name: spirng-app
+    container_name: spring-app
     build:
       context: ./spring-app
       dockerfile: Dockerfile

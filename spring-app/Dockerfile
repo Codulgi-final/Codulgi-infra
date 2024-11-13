@@ -8,7 +8,7 @@ COPY wait.sh /wait.sh
 RUN chmod +x /wait.sh
 
 # 3. JAR 파일을 /app 디렉터리로 복사
-COPY ./codulgi-server-0.0.1-SNAPSHOT.jar /app/codulgi-server-0.0.1-SNAPSHOT.jar
+COPY ["app.jar", "/app/app.jar"]
 
 # 4. 애플리케이션 실행 명령을 wait.sh 스크립트를 통해 실행
-ENTRYPOINT ["/wait.sh", "java", "-jar", "/app/codulgi-server-0.0.1-SNAPSHOT.jar", "--spring.profiles.active=prod"]
+ENTRYPOINT ["/wait.sh", "java", "-jar", "/app/app.jar", "--spring.profiles.active=prod"]
