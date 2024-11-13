@@ -1,0 +1,27 @@
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ../volume/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - all_network
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../volume/grafana:/var/lib/grafana
+    networks:
+      - all_network
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    user: "${UID}:${GID}"
+
+networks:
+  all_network:
+
