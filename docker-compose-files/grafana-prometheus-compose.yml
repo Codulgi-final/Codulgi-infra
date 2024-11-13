@@ -3,7 +3,7 @@ services:
     image: prom/prometheus
     container_name: prometheus
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ../volume/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
     networks:
@@ -15,13 +15,12 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./grafana/volume:/var/lib/grafana
+      - ../volume/grafana:/var/lib/grafana
     networks:
       - all_network
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
-    user: "${UID}:${GID}"  # 현재 사용자 UID/GID로 설정
-      
+    user: "${UID}:${GID}"
 
 networks:
   all_network:

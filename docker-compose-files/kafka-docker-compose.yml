@@ -1,6 +1,6 @@
 services:
   kafka:
-    build: ./kafka
+    build: dockerfiles/kafka
     ports:
       - "9092:9092"
     environment:
@@ -20,3 +20,6 @@ services:
 
       # Required for a single node cluster
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - ../volume/kafka/data:/tmp/kafka-logs/
+      - ../volume/kafka/logs:/opt/kafka/logs/

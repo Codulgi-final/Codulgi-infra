@@ -11,15 +11,15 @@ services:
     ports:
       - "3366:3306"
     volumes:
-      - ./mariadb/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ../volume/mariadb/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - all_network
 
   spring-app:
     container_name: spring-app
     build:
-      context: ./spring-app
-      dockerfile: Dockerfile
+      context: dockerfiles/spring-app
+      dockerfile: dockerfiles/spring-app/Dockerfile
     depends_on:
       - mariadb
     ports:
