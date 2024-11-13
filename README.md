@@ -31,3 +31,9 @@ curl -LfO 'https://airflow.apache.org/docs/apache-airflow/2.5.1/docker-compose.y
 
 참조 url 
 ```
+
+### spring-docker-compose up 하기 전
+$ docker volume prune
+$ docker buildx prune
+$ docker rmi $(docker images -a -q)
+$ docker rm -f $(docker ps -a -q)
