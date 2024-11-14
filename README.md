@@ -1,3 +1,4 @@
+![image](https://github.com/user-attachments/assets/4a5ccee2-d38e-4572-aa46-26b48479e71e)
 
 ```bash
 $ docker compose -f airflow-docker-compose.yml up -d
